@@ -15,7 +15,11 @@ const theme = createMuiTheme({
   },
   typography: {
     fontFamily: '"Roboto", sans-serif',
+    body2: {
+      lineHeight: 2,
+    },
     allVariants: {
+      marginBottom: 8,
       color: TEXT_COLOR,
     },
   },
@@ -33,9 +37,13 @@ const theme = createMuiTheme({
         }
       }
     },
+    MuiSvgIcon: {
+      root: {
+        fill: TEXT_COLOR,
+      },
+    },
     MuiButton: {
       root: {
-        borderRadius: 0,
         backgroundColor: LIGHT_BLUE,
         color: TEXT_COLOR,
         textTransform: 'none',

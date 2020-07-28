@@ -4,11 +4,6 @@ export const fetchPosts = () => ({
   type: types.FETCH_POSTS,
 });
 
-export const filterPosts = (data) => ({
-  type: types.FILTER_POSTS,
-  title: data.title,
-});
-
 export const openEditModal = (data) => ({
   type: types.OPEN_EDIT_MODAL,
   modalData: data.modalData,
@@ -22,3 +17,8 @@ export const updatePost = (post) => ({
   type: types.UPDATE_POST,
   post,
 })
+
+export const searchPosts = (data) => ({
+  type: types.SEARCH_POSTS,
+  title: data.title,
+});

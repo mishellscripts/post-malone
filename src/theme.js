@@ -19,7 +19,6 @@ const theme = createMuiTheme({
       lineHeight: 2,
     },
     allVariants: {
-      marginBottom: 8,
       color: TEXT_COLOR,
     },
   },

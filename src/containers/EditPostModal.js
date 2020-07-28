@@ -19,6 +19,9 @@ const styles = (theme) => ({
     backgroundColor: '#ffffff',
   },
   header: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    paddingLeft: 16,
     height: 50,
     backgroundColor: theme.palette.primary.light,
   },
@@ -26,12 +29,11 @@ const styles = (theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    padding: 32,
   },
-  submitButton: {
-    marginTop: 8,
-  },
-  closeIcon: {
-    float: 'right',
+  input: {
+    width: '80%',
+    marginBottom: 16,
   },
 });
 
@@ -78,14 +80,14 @@ class EditPostModal extends Component {
       >
         <div className={classes.modal}>
           <div className={classes.header}>
-            <IconButton onClick={handleClose} className={classes.closeIcon}>
+            <IconButton onClick={handleClose}>
               <CloseIcon />
             </IconButton>
           </div>
           <form className={classes.form} onSubmit={this.handleSubmit}>
-            <TextField value={title} label="Title" name="title" onChange={this.handleInputChange} />
-            <TextField value={body} label="Body" name="body" onChange={this.handleInputChange} multiline />
-            <Button type="submit" className={classes.submitButton}>Edit</Button>
+            <TextField value={title} label="Title" name="title" onChange={this.handleInputChange} className={classes.input} />
+            <TextField value={body} label="Body" name="body" onChange={this.handleInputChange} multiline className={classes.input} />
+            <Button type="submit">Edit</Button>
           </form>
         </div>
       </Modal>

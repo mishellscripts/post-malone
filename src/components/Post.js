@@ -17,7 +17,7 @@ const styles = {
   },
   title: {
     fontWeight: 'bold',
-    height: 56,
+    minHeight: 56,
     marginBottom: 8,
   },
 };

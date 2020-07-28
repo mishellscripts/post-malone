@@ -8,6 +8,7 @@ import EditPostModal from '../containers/EditPostModal';
 
 const styles = (theme) => ({
   root: {
+    position: 'relative',
     backgroundColor: theme.palette.primary.light,
   },
 });

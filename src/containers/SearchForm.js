@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import withStyles from '@material-ui/core/styles/withStyles';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Typography from '@material-ui/core/Typography';
+import {
+  withStyles,
+  TextField,
+  Button,
+  IconButton,
+  InputAdornment,
+  Typography,
+  SvgIcon,
+} from '@material-ui/core';
 
-import { searchPosts } from '../actions';
-import CloseIcon from '../icons/CloseIcon';
+import { searchPosts } from '../actions/posts';
+import { ReactComponent as CloseIcon } from '../icons/close-icon.svg';
 
-const styles = {
+
+const styles = (theme) => ({
   form: {
     display: 'flex',
     alignItems: 'center',
@@ -36,13 +40,16 @@ const styles = {
   },
   item: {
     padding: 8,
-    borderTop: '1px solid lightgray',
+    borderBottom: '1px solid lightgray',
     cursor: 'pointer',
+    '&:last-child': {
+      borderBottom: 'none', 
+    },
     '&:hover': {
-      backgroundColor: 'lightgray',
+      backgroundColor: theme.palette.primary.light,
     },
   },
-};
+});
 
 class SearchForm extends Component {
   state = {
@@ -57,6 +64,7 @@ class SearchForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.searchPosts({ title: this.state.input.trim() });
+    this.closeAutocomplete();
   }
 
   handleReset = () => {
@@ -64,15 +72,15 @@ class SearchForm extends Component {
     this.props.searchPosts({ title: '' });
   }
 
-  closeAutocomplete = (e) => {
+  closeAutocomplete = () => {
     this.setState({ showAutocomplete: false });
   }
 
-  openAutocomplete = (e) => {
+  openAutocomplete = () => {
     this.setState((state) => ({ showAutocomplete: state.input.length > 0 }));
   }
 
-  selectItem = (e, title) => {
+  selectItem = (title) => {
     this.setState({ showAutocomplete: false, input: title });
     this.props.searchPosts({ title });
   }
@@ -95,8 +103,10 @@ class SearchForm extends Component {
             InputProps={{
               endAdornment: this.state.input.length > 0 ? (
                 <InputAdornment position="end">
-                  <IconButton onClick={this.handleReset}>
-                    <CloseIcon />
+                  <IconButton aria-label="Clear search" onClick={this.handleReset}>
+                    <SvgIcon viewBox="0 0 24 24">
+                      <CloseIcon />
+                    </SvgIcon>
                   </IconButton>
                 </InputAdornment>
               ) : null,
@@ -111,7 +121,7 @@ class SearchForm extends Component {
                 variant="body2"
                 key={result.id}
                 className={classes.item}
-                onClick={(e) => this.selectItem(e, result.title)}
+                onClick={() => this.selectItem(result.title)}
                 role="option"
               >
                 {result.title}
@@ -126,7 +136,7 @@ class SearchForm extends Component {
 
 const mapStateToProps = (state) => ({
   loading: state.loading,
-  posts: state.initialPosts,
+  posts: state.posts.posts,
 });
 
 const mapDispatchToProps = {

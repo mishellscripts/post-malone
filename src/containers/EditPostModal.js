@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import withStyles from '@material-ui/core/styles/withStyles';
-import Modal from '@material-ui/core/Modal';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
+import {
+  withStyles,
+  Modal,
+  TextField,
+  Button,
+  IconButton,
+  SvgIcon,
+} from '@material-ui/core';
 
-import { closeEditModal, updatePost } from '../actions';
-import CloseIcon from '../icons/CloseIcon';
+import { closeEditModal } from '../actions/modal';
+import { updatePost } from '../actions/posts';
+import { ReactComponent as CloseIcon } from '../icons/close-icon.svg';
+
 
 const styles = (theme) => ({
   modal: {
@@ -39,7 +44,8 @@ const styles = (theme) => ({
 
 class EditPostModal extends Component {
   state = {
-    id: '',
+    id: null,
+    userId: null,
     error: false,
     dirty: false,
     fields: {
@@ -59,11 +65,11 @@ class EditPostModal extends Component {
   };
 
   static getDerivedStateFromProps(props, state) {
-    if (props.modalData && props.modalData.id !== state.id) {
+    if (props.id && props.id !== state.id) {
       const newState = { ...state };
-      newState.id = props.modalData.id;
-      newState.fields.title.value = props.modalData.title;
-      newState.fields.body.value = props.modalData.body;
+      newState.id = props.id;
+      newState.fields.title.value = props.title;
+      newState.fields.body.value = props.body;
       return newState;
     }
     return null;
@@ -71,7 +77,7 @@ class EditPostModal extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { id, fields, dirty } = this.state;
+    const { id, userId, fields, dirty } = this.state;
     const { title, body } = fields;
 
     // validate fields are not empty
@@ -86,7 +92,12 @@ class EditPostModal extends Component {
 
     // skip call to update if form hasn't been changed
     if (dirty) {
-      this.props.updatePost({ id, title: title.value, body: body.value });
+      this.props.updatePost({
+        id,
+        userId,
+        title: title.value,
+        body: body.value,
+      });
     }
 
     this.setState({ dirty: false });
@@ -122,8 +133,10 @@ class EditPostModal extends Component {
       >
         <div className={classes.modal}>
           <div className={classes.header}>
-            <IconButton onClick={handleClose}>
-              <CloseIcon />
+            <IconButton onClick={handleClose} aria-label="Close Modal">
+              <SvgIcon viewBox="0 0 24 24">
+                <CloseIcon />
+              </SvgIcon>
             </IconButton>
           </div>
           <form className={classes.form} onSubmit={this.handleSubmit}>
@@ -155,9 +168,11 @@ class EditPostModal extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  open: state.modalData !== null,
-  posts: state.posts,
-  modalData: state.modalData,
+  open: state.modal.open,
+  id: state.modal.id,
+  userId: state.modal.userId,
+  title: state.modal.title,
+  body: state.modal.body,
 });
 
 const mapDispatchToProps = {

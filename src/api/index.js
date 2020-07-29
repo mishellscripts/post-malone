@@ -1,12 +1,16 @@
-export const fetchPosts = async () => {
+export async function fetchPosts() {
   try {
     const res = await fetch('http://jsonplaceholder.typicode.com/posts');
     if (res.ok) {
       return res.json();
     } else {
-      throw res.json();
+      throw Object.assign(
+        new Error(res.statusText),
+        { code: res.statusCode }
+     );
     }
   } catch(error) {
+    // what's the point of this?
     throw error;
   }
-};
+}

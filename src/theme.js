@@ -1,8 +1,8 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
-const LIGHT_BLUE = '#f1f6fd';
-const PRIMARY_BLUE = '#aecbf3';
-const TEXT_COLOR = '#787B7E';
+const LIGHT_BLUE = '#F1F6FD';
+const PRIMARY_BLUE = '#689DE7';
+const TEXT_COLOR = '#67696C';
 
 const theme = createMuiTheme({
   palette: {

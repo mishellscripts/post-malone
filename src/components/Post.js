@@ -1,19 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import withStyles from '@material-ui/core/styles/withStyles';
-import IconButton from '@material-ui/core/IconButton';
-import CardActions from '@material-ui/core/CardActions';
-import EditIcon from '../icons/EditIcon';
+import {
+  withStyles,
+  Card,
+  CardContent,
+  CardActions,
+  Typography,
+  IconButton,
+  SvgIcon,
+} from '@material-ui/core';
+
+import { ReactComponent as EditIcon } from '../icons/edit-icon.svg';
+
 
 const styles = {
   card: {
     display: 'flex',
     justifyContent: 'space-between',
     flexDirection: 'column',
-    height: '100%',
   },
   title: {
     fontWeight: 'bold',
@@ -31,8 +35,10 @@ const Post = (props) => {
         <Typography component="h3" variant="body2">{body}</Typography>
       </CardContent>
       <CardActions>
-        <IconButton aria-label="edit post" onClick={handleEdit}>
-          <EditIcon />
+        <IconButton aria-label="Edit Post" onClick={handleEdit}>
+          <SvgIcon viewBox="0 0 24 24">
+            <EditIcon />
+          </SvgIcon>
         </IconButton>
       </CardActions>
     </Card>

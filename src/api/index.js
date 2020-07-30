@@ -10,7 +10,6 @@ export async function fetchPosts() {
      );
     }
   } catch(error) {
-    // what's the point of this?
-    throw error;
+    console.error(error);
   }
 }

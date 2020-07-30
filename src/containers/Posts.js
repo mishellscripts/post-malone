@@ -31,21 +31,17 @@ class Posts extends Component {
     const {
       classes,
       posts,
-      searchTerm,
       loading,
       error,
       openEditModal,
     } = this.props;
-
-    // display the posts that match the current search query
-    const filteredPosts = searchTerm ? posts.filter((post) => post.title.toLowerCase().includes(searchTerm.toLowerCase())) : posts;
 
     return (
       <div className={classes.root}>
         {error && <Typography className={classes.center} data-test="errorMessage">{error.message}</Typography>}
         {loading ? <CircularProgress className={classes.center} data-test="loaderComponent" /> : (
           <Grid container spacing={2} data-test="postsContainer">
-            {filteredPosts.map((post) => (
+            {posts.map((post) => (
               <Grid item xs={12} sm={6} md={3} key={post.id}>
                 <Post
                   title={post.title}
@@ -61,11 +57,17 @@ class Posts extends Component {
   }
 }
 
+const getFilteredPosts = (posts, searchTerm) => {
+  if (searchTerm) {
+    return posts.filter((post) => post.title.toLowerCase().includes(searchTerm.toLowerCase()))
+  }
+  return posts;
+}
+
 const mapStateToProps = (state) => ({
   loading: state.posts.loading,
   error: state.posts.error,
-  posts: state.posts.posts,
-  searchTerm: state.posts.searchTerm,
+  posts: getFilteredPosts(state.posts.posts, state.posts.searchTerm),
 });
 
 const mapDispatchToProps = {
@@ -80,7 +82,6 @@ Posts.propTypes = {
     message: PropTypes.string.isRequired,
   }),
   posts: PropTypes.array.isRequired,
-  searchTerm: PropTypes.string,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Posts));

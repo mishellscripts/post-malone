@@ -80,7 +80,7 @@ class SearchForm extends Component {
     // display autocomplete results that:
     //  - start with the current search query
     //  - doesn't contain the whole query
-    const filteredPosts = input ? posts.filter((post) => post.title.toLowerCase().slice(0, -1).startsWith(input.toLowerCase())) : [];
+    const autocompleteResults = input ? posts.filter((post) => post.title.toLowerCase().slice(0, -1).startsWith(input.toLowerCase())) : [];
     const showAutocomplete = input.length > 0 && touched;
 
     return (
@@ -108,7 +108,7 @@ class SearchForm extends Component {
         </form>
         {showAutocomplete && (
           <div role="listbox" className={classes.autocomplete} tabIndex="1">
-            {filteredPosts.slice(0, 5).map((post) => (
+            {autocompleteResults.slice(0, 5).map((post) => (
               <Typography
                 key={post.id}
                 variant="body2"

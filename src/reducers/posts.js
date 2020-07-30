@@ -6,6 +6,7 @@ import {
   SEARCH_POSTS,
 } from '../actions/types';
 
+
 export const initialState = {
   posts: [],
   searchTerm: '',

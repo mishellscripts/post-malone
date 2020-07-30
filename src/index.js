@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { ThemeProvider } from '@material-ui/styles';
 
 import App from './components/App';
-import store from './store/createStore';
+import createStore from './store/createStore';
 import theme from './theme';
 import * as serviceWorker from './serviceWorker';
 

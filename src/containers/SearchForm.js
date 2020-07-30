@@ -94,6 +94,8 @@ class SearchForm extends Component {
       <>
         <form className={classes.form} onSubmit={this.handleSubmit}>
           <TextField
+            id="search"
+            label="search"
             onChange={this.handleChange}
             value={this.state.input}
             disabled={loading}
@@ -135,7 +137,7 @@ class SearchForm extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  loading: state.loading,
+  loading: state.posts.loading,
   posts: state.posts.posts,
 });
 

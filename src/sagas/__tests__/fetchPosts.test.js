@@ -4,6 +4,10 @@ import * as api from '../../api';
 import { fetchPosts } from '../fetchPosts';
 
 describe('fetchPosts', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+  
   it('should call api and dispatch success action', async () => {
     const mockPostsData = [];
     const requestPosts = jest.spyOn(api, 'fetchPosts')
@@ -15,11 +19,16 @@ describe('fetchPosts', () => {
     }, fetchPosts);
 
     expect(requestPosts).toHaveBeenCalledTimes(1);
-    expect(dispatched).toEqual([{ type: FETCH_POSTS_SUCCESS, posts: mockPostsData }]);
+    expect(dispatched).toEqual([
+      { type: FETCH_POSTS_SUCCESS, posts: mockPostsData },
+    ]);
   });
 
   it('should call api and dispatch error action', async () => {
-    const mockError = {};
+    const mockError = {
+      status: 404,
+      message: 'Not found',
+    };
     const requestPosts = jest.spyOn(api, 'fetchPosts')
       .mockImplementation(() => Promise.reject(mockError));
 
@@ -29,6 +38,8 @@ describe('fetchPosts', () => {
     }, fetchPosts);
 
     expect(requestPosts).toHaveBeenCalledTimes(1);
-    expect(dispatched).toEqual([{ type: FETCH_POSTS_ERROR, error: mockError }]);
+    expect(dispatched).toEqual([
+      { type: FETCH_POSTS_ERROR, error: mockError },
+    ]);
   });
 });

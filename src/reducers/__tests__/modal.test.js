@@ -1,5 +1,7 @@
-import modal, { initialState } from '../modal';
+import modal from '../modal';
+import { initialState } from '../modal';
 import { OPEN_EDIT_MODAL, CLOSE_EDIT_MODAL } from '../../actions/types';
+
 
 describe('Modal Reducer', () => {
   const mockPostData = {

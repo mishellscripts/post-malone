@@ -37,20 +37,22 @@ class Posts extends Component {
     const filteredPosts = searchTerm ? posts.filter((post) => post.title.toLowerCase().includes(searchTerm.toLowerCase())) : posts;
 
     return (
-      <Grid container spacing={2} className={classes.container}>
-        {loading && <CircularProgress className={classes.center} />}
-        {error && <Typography className={classes.center}>{error.message}</Typography>}
-        {filteredPosts.map((post) => (
-            <Grid item xs={12} sm={6} md={3} key={post.id}>
-              <Post
-                title={post.title}
-                body={post.body}
-                handleEdit={() => openEditModal({ ...post })}
-              />
-            </Grid>
-          ))
-        }
-      </Grid>
+      <>
+        {error && <Typography className={classes.center} data-test="errorMessage">{error.message}</Typography>}
+        {loading ? <CircularProgress className={classes.center} data-test="loaderComponent" /> : (
+          <Grid container spacing={2} className={classes.container} data-test="postsContainer">
+            {filteredPosts.map((post) => (
+              <Grid item xs={12} sm={6} md={3} key={post.id}>
+                <Post
+                  title={post.title}
+                  body={post.body}
+                  handleEdit={() => openEditModal({ ...post })}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        )}
+      </>
     );
   }
 }

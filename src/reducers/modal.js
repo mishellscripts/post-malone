@@ -3,6 +3,7 @@ import {
   CLOSE_EDIT_MODAL,
 } from '../actions/types';
 
+
 export const initialState = {
   open: false,
   id: null,

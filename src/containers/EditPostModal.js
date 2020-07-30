@@ -128,6 +128,7 @@ class EditPostModal extends Component {
 
     return (
       <Modal
+        aria-labelledby="Edit post"
         open={open}
         onClose={handleClose}
       >
@@ -142,8 +143,9 @@ class EditPostModal extends Component {
           <form className={classes.form} onSubmit={this.handleSubmit}>
             <TextField
               value={title.value}
-              label="Title"
+              id="title"
               name="title"
+              label="title"
               onChange={this.handleInputChange}
               className={classes.input}
               error={!title.isValid && (hasFormError || title.touched)}
@@ -151,8 +153,9 @@ class EditPostModal extends Component {
             />
             <TextField
               value={body.value}
-              label="Body"
+              id="body"
               name="body"
+              label="body"
               onChange={this.handleInputChange}
               multiline 
               className={classes.input} 

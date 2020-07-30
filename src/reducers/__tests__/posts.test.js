@@ -1,10 +1,12 @@
-import posts, { initialState } from '../posts';
+import posts from '../posts';
+import { initialState } from '../posts';
 import {
   FETCH_POSTS_SUCCESS,
   FETCH_POSTS_ERROR,
   UPDATE_POST,
   SEARCH_POSTS,
 } from '../../actions/types';
+
 
 describe('Posts Reducer', () => {
   const mockPostsData = [

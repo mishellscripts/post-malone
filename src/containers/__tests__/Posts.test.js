@@ -5,18 +5,27 @@ import Posts from '../Posts';
 
 
 describe('Posts' , () => {
+  const mockPosts = [
+    {
+      id: 1,
+      userId: 1,
+      title: 'Title',
+      body: 'Body',
+    },
+  ];
+
   it('should render without crashing', () => {
-    render(<Posts />);
+    render(<Posts posts={mockPosts} />);
   });
 
   it('should render loader while fetching', () => {
-    const initialState = { posts: { loading: true } };
+    const initialState = { posts: { loading: true, posts: [] } };
     const { container } = render(<Posts />, { initialState });
     expect(container.querySelector(['[data-test="loaderComponent"'])).toBeTruthy();
   });
 
   it('should render posts container when fetch complete', () => {
-    const store = createStore(() => ({ posts: { loading: false, posts: [] } }))
+    const store = createStore(() => ({ posts: { loading: false, posts: mockPosts } }))
     const { container } = render(<Posts />, { store });
     expect(container.querySelector(['[data-test="postsContainer"'])).toBeTruthy();
   });

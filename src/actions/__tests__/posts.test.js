@@ -1,5 +1,5 @@
-import { fetchPosts, updatePost, searchPosts } from '../posts';
-import { FETCH_POSTS, UPDATE_POST, SEARCH_POSTS } from '../types';
+import { fetchPosts, updatePost, filterPosts } from '../posts';
+import { FETCH_POSTS, UPDATE_POST, FILTER_POSTS } from '../types';
 
 
 describe('Post Actions', () => {
@@ -24,11 +24,11 @@ describe('Post Actions', () => {
     });
   });
   
-  it('searchPosts should create SEARCH_POSTS action', () => {
+  it('filterPosts should create FILTER_POSTS action', () => {
     expect(
-      searchPosts({ title: 'Hello' })
+      filterPosts('Hello')
     ).toEqual({
-      type: SEARCH_POSTS,
+      type: FILTER_POSTS,
       title: 'Hello',
     });
   });

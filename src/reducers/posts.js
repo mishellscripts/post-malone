@@ -3,7 +3,7 @@ import {
   FETCH_POSTS_SUCCESS,
   FETCH_POSTS_ERROR,
   UPDATE_POST,
-  SEARCH_POSTS,
+  FILTER_POSTS,
 } from '../actions/types';
 
 
@@ -19,7 +19,7 @@ const reducer = (state = initialState, action) => {
     case FETCH_POSTS:
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     case FETCH_POSTS_SUCCESS:
       return {
@@ -38,7 +38,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         posts: state.posts.map((post) => post.id === action.post.id ? action.post : post),
       };
-    case SEARCH_POSTS:
+    case FILTER_POSTS:
       return {
         ...state,
         searchTerm: action.title,

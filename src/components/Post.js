@@ -13,7 +13,7 @@ import {
 import { ReactComponent as EditIcon } from '../icons/edit-icon.svg';
 
 
-const styles = {
+const styles = (theme) => ({
   card: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -22,17 +22,21 @@ const styles = {
   title: {
     fontWeight: 'bold',
     minHeight: 56,
-    marginBottom: 8,
+    marginBottom: theme.spacing(1),
   },
-};
+});
 
 const Post = (props) => {
   const { title, body, classes, handleEdit } = props;
   return (
     <Card className={classes.card} elevation={1}>
       <CardContent>
-        <Typography component="h2" variant="body2" className={classes.title}>{title}</Typography>
-        <Typography component="h3" variant="body2">{body}</Typography>
+        <Typography component="h2" variant="body2" className={classes.title}>
+          {title}
+        </Typography>
+        <Typography component="h3" variant="body2">
+          {body}
+        </Typography>
       </CardContent>
       <CardActions>
         <IconButton aria-label="Edit Post" onClick={handleEdit}>

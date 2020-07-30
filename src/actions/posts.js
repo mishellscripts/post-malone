@@ -1,7 +1,7 @@
 import {
   FETCH_POSTS,
   UPDATE_POST,
-  SEARCH_POSTS
+  FILTER_POSTS,
 } from './types';
 
 export const fetchPosts = () => ({
@@ -13,7 +13,7 @@ export const updatePost = (post) => ({
   post,
 })
 
-export const searchPosts = (data) => ({
-  type: SEARCH_POSTS,
-  title: data.title,
+export const filterPosts = (title) => ({
+  type: FILTER_POSTS,
+  title,
 });

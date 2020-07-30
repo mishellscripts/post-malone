@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'proptypes';
 import {
   withStyles,
   Modal,
@@ -26,7 +27,6 @@ const styles = (theme) => ({
   header: {
     display: 'flex',
     justifyContent: 'flex-end',
-    paddingLeft: 16,
     height: 50,
     backgroundColor: theme.palette.primary.light,
   },
@@ -34,42 +34,61 @@ const styles = (theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: 32,
+    padding: theme.spacing(4),
   },
   input: {
     width: '80%',
-    marginBottom: 16,
+    marginBottom: theme.spacing(1),
   },
 });
 
-class EditPostModal extends Component {
-  state = {
-    id: null,
-    userId: null,
-    error: false,
-    dirty: false,
-    fields: {
-      title: {
-        value: '',
-        isValid: false,
-        touched: false,
-        error: 'Title cannot be empty',
-      },
-      body: {
-        value: '',
-        isValid: false,
-        touched: false,
-        error: 'Body cannot be empty',
-      },
+const defaultState = {
+  id: null,
+  userId: null,
+  error: false,
+  dirty: false,
+  fields: {
+    title: {
+      id: 'Title',
+      value: '',
+      isValid: false,
+      touched: false,
+      error: 'Title cannot be empty',
+      rule: /\S/,
     },
-  };
+    body: {
+      id: 'Body',
+      value: '',
+      isValid: false,
+      touched: false,
+      error: 'Body cannot be empty',
+      rule: /\S/,
+    },
+  },
+};
+
+class EditPostModal extends Component {
+  state = defaultState;
 
   static getDerivedStateFromProps(props, state) {
+    // when new post passed in through props, reset form errors & set values
     if (props.id && props.id !== state.id) {
       const newState = { ...state };
       newState.id = props.id;
-      newState.fields.title.value = props.title;
-      newState.fields.body.value = props.body;
+      newState.error = false;
+      newState.dirty = false;
+      newState.fields = {
+        title: {
+          ...defaultState.fields.title,
+          value: props.title,
+          isValid: state.fields.title.rule.test(props.title),
+        },
+        body: {
+          ...defaultState.fields.body,
+          value: props.body,
+          isValid: state.fields.body.rule.test(props.body),
+        },
+      };
       return newState;
     }
     return null;
@@ -80,9 +99,9 @@ class EditPostModal extends Component {
     const { id, userId, fields, dirty } = this.state;
     const { title, body } = fields;
 
-    // validate fields are not empty
+    // validate that fields are not empty
     const isValid = Object.values(fields).reduce((acc, field) => {
-      return acc && field.value.length > 0;
+      return acc && field.isValid;
     }, true);
 
     if (!isValid) {
@@ -95,8 +114,8 @@ class EditPostModal extends Component {
       this.props.updatePost({
         id,
         userId,
-        title: title.value,
-        body: body.value,
+        title: title.value.trim(),
+        body: body.value.trim(),
       });
     }
 
@@ -106,25 +125,47 @@ class EditPostModal extends Component {
 
   handleInputChange = (e) => {
     const { name, value } = e.target;
-    this.setState((state) => ({
-      dirty: true,
-      fields: {
-        ...state.fields,
-        [name]: {
-          ...state.fields[name],
-          value,
-          touched: true,
-          isValid: value.length > 0,
+    this.setState((state) => {
+      const field = state.fields[name];
+      return {
+        dirty: true,
+        fields: {
+          ...state.fields,
+          [name]: {
+            ...field,
+            value,
+            touched: true,
+            isValid: field.rule.test(value),
+          },
         },
-      },
-    }));
+      }
+    });
+  }
+
+  renderInput = (name, fieldData, textFieldProps) => {
+    const { classes } = this.props;
+    const { error, dirty } = this.state;
+    const hasFormError = error && !dirty;
+
+    return (
+      <TextField
+        key={fieldData.id}
+        value={fieldData.value}
+        id={fieldData.id}
+        name={name}
+        label={fieldData.id}
+        onChange={this.handleInputChange}
+        className={classes.input}
+        error={!fieldData.isValid && (hasFormError || fieldData.touched)}
+        helperText={!fieldData.isValid && (hasFormError || fieldData.touched) ? fieldData.error : ''}
+        multiline
+      />
+    )
   }
 
   render() {
-    const { open, handleClose, classes } = this.props;
-    const { fields, error, dirty } = this.state;
-    const { title, body } = fields;
-    const hasFormError = error && !dirty;
+    const { classes, open, handleClose } = this.props;
+    const { fields } = this.state;
 
     return (
       <Modal
@@ -141,27 +182,9 @@ class EditPostModal extends Component {
             </IconButton>
           </div>
           <form className={classes.form} onSubmit={this.handleSubmit}>
-            <TextField
-              value={title.value}
-              id="title"
-              name="title"
-              label="title"
-              onChange={this.handleInputChange}
-              className={classes.input}
-              error={!title.isValid && (hasFormError || title.touched)}
-              helperText={!title.isValid && (hasFormError || title.touched) ? title.error : ''}
-            />
-            <TextField
-              value={body.value}
-              id="body"
-              name="body"
-              label="body"
-              onChange={this.handleInputChange}
-              multiline 
-              className={classes.input} 
-              error={!body.isValid && (hasFormError || body.touched)}
-              helperText={!body.isValid && (hasFormError || body.touched) ? body.error : ''}
-            />
+            {Object.entries(fields).map(([name, fieldData]) => (
+              this.renderInput(name, fieldData)
+            ))}
             <Button type="submit">Edit</Button>
           </form>
         </div>
@@ -181,6 +204,14 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   handleClose: closeEditModal,
   updatePost,
+};
+
+EditPostModal.propTypes = {
+  open: PropTypes.bool.isRequired,
+  id: PropTypes.number,
+  userId: PropTypes.number,
+  title: PropTypes.string,
+  body: PropTypes.string,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(EditPostModal));

@@ -20,8 +20,8 @@ describe('EditPostModal' , () => {
   it('Should update form input when props are passed', () => {
     const initialState = { modal: { open: true, ...mockPost } };
     const modal = render(<EditPostModal />, { initialState });
-    expect(modal.getByLabelText('title').value).toEqual(mockPost.title);
-    expect(modal.getByLabelText('body').value).toEqual(mockPost.body);
+    expect(modal.getByLabelText('Title').value).toEqual(mockPost.title);
+    expect(modal.getByLabelText('Body').value).toEqual(mockPost.body);
   });
 
   it('should be closed when editing is complete', () => {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'proptypes';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -10,16 +11,16 @@ import { openEditModal } from '../actions/modal';
 import Post from '../components/Post';
 
 
-const styles = {
+const styles = (theme) => ({
   root: {
-    padding: 16,
-    minHeight: 'calc(100vh - 40px)',
+    padding: theme.spacing(2),
+    minHeight: 'calc(100vh - 40px)', // height of screen excluding search bar
   },
   center: {
     display: 'block',
-    margin: '16px auto',
+    margin: theme.spacing(2, 'auto'),
   }
-};
+});
 
 class Posts extends Component {
   componentDidMount() {
@@ -36,6 +37,7 @@ class Posts extends Component {
       openEditModal,
     } = this.props;
 
+    // display the posts that match the current search query
     const filteredPosts = searchTerm ? posts.filter((post) => post.title.toLowerCase().includes(searchTerm.toLowerCase())) : posts;
 
     return (
@@ -48,7 +50,7 @@ class Posts extends Component {
                 <Post
                   title={post.title}
                   body={post.body}
-                  handleEdit={() => openEditModal({ ...post })}
+                  handleEdit={() => openEditModal(post)}
                 />
               </Grid>
             ))}
@@ -70,5 +72,15 @@ const mapDispatchToProps = {
   fetchPosts,
   openEditModal,
 };
+
+Posts.propTypes = {
+  loading: PropTypes.bool,
+  error: PropTypes.shape({
+    status: PropTypes.number,
+    message: PropTypes.string.isRequired,
+  }),
+  posts: PropTypes.array.isRequired,
+  searchTerm: PropTypes.string,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Posts));

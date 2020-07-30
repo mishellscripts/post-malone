@@ -16,14 +16,14 @@ describe('SearchForm' , () => {
   ];
 
   it('should render without crashing', () => {
-    render(<SearchForm />);
+    render(<SearchForm posts={mockPosts} />);
   });
 
   it('should open autocomplete when there are matching results', () => {
     const initialState = { posts: { posts: mockPosts } };
     const search = render(<SearchForm />, { initialState });
     fireEvent.change(
-      search.getByLabelText('search'),
+      search.getByPlaceholderText('Search'),
       {
         target: {
           value: 'h',
@@ -34,17 +34,17 @@ describe('SearchForm' , () => {
   });
 
   it('should be disabled when posts are loading', () => {
-    const initialState = { posts: { loading: true } };
+    const initialState = { posts: { loading: true, posts: [] } };
     const search = render(<SearchForm />, { initialState });
     expect(
-      search.getByLabelText('search')
+      search.getByPlaceholderText('Search'),
     ).toBeDisabled();
   });
 
   it('should show clear button when there is a value', () => {
     const search = render(<SearchForm />);
     fireEvent.change(
-      search.getByLabelText('search'),
+      search.getByPlaceholderText('Search'),
       {
         target: {
           value: 'h',
@@ -58,7 +58,7 @@ describe('SearchForm' , () => {
 
   it('should clear input when clear button is clicked', () => {
     const search = render(<SearchForm />);
-    const input = search.getByLabelText('search');
+    const input = search.getByPlaceholderText('Search');
     fireEvent.change(input, {
       target: {
         value: 'h',

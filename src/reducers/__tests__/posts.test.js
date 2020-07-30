@@ -4,7 +4,7 @@ import {
   FETCH_POSTS_SUCCESS,
   FETCH_POSTS_ERROR,
   UPDATE_POST,
-  SEARCH_POSTS,
+  FILTER_POSTS,
 } from '../../actions/types';
 
 
@@ -83,9 +83,9 @@ describe('Posts Reducer', () => {
     });
   });
 
-  it('Should handle SEARCH_POSTS', () => {
+  it('Should handle FILTER_POSTS', () => {
     expect(posts(initialState, {
-      type: SEARCH_POSTS,
+      type: FILTER_POSTS,
       title: 'Hello',
     })).toEqual({
       ...initialState,

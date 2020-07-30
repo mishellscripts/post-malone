@@ -7,10 +7,10 @@ import {
 import { fetchPosts as fetchPostsApi } from '../api';
 
 export function* fetchPosts() {
-  try {
-    const posts = yield fetchPostsApi();
+  const { posts, error } = yield fetchPostsApi();
+  if (posts) {
     yield put({ type: FETCH_POSTS_SUCCESS, posts });
-  } catch (error) {
+  } else if (error) {
     yield put({ type: FETCH_POSTS_ERROR, error });
   }
 }

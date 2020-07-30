@@ -11,7 +11,7 @@ describe('fetchPosts', () => {
   it('should call api and dispatch success action', async () => {
     const mockPostsData = [];
     const requestPosts = jest.spyOn(api, 'fetchPosts')
-      .mockImplementation(() => Promise.resolve(mockPostsData));
+      .mockImplementation(() => Promise.resolve({ posts: mockPostsData }));
   
     const dispatched = [];
     const result = await runSaga({
@@ -30,7 +30,7 @@ describe('fetchPosts', () => {
       message: 'Not found',
     };
     const requestPosts = jest.spyOn(api, 'fetchPosts')
-      .mockImplementation(() => Promise.reject(mockError));
+      .mockImplementation(() => Promise.resolve({ error: mockError }));
 
     const dispatched = [];
     const result = await runSaga({

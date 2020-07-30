@@ -17,7 +17,7 @@ import { ReactComponent as CloseIcon } from '../icons/close-icon.svg';
 const styles = (theme) => ({
   form: {
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     backgroundColor: '#fff',
     padding: '8px 16px',
   },

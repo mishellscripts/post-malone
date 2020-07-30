@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import postsReducer, { postsInitialState } from './posts';
-import modalReducer, { modalInitialState } from './modal';
+import postsReducer, { initialState as postsInitialState } from './posts';
+import modalReducer, { initialState as modalInitialState } from './modal';
 
 export const initialState = {
   posts: postsInitialState,

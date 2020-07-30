@@ -9,12 +9,14 @@ import { fetchPosts } from '../actions/posts';
 import { openEditModal } from '../actions/modal';
 import Post from '../components/Post';
 
+
 const styles = {
-  container: {
+  root: {
     padding: 16,
     minHeight: 'calc(100vh - 40px)',
   },
   center: {
+    display: 'block',
     margin: '16px auto',
   }
 };
@@ -37,10 +39,10 @@ class Posts extends Component {
     const filteredPosts = searchTerm ? posts.filter((post) => post.title.toLowerCase().includes(searchTerm.toLowerCase())) : posts;
 
     return (
-      <>
+      <div className={classes.root}>
         {error && <Typography className={classes.center} data-test="errorMessage">{error.message}</Typography>}
         {loading ? <CircularProgress className={classes.center} data-test="loaderComponent" /> : (
-          <Grid container spacing={2} className={classes.container} data-test="postsContainer">
+          <Grid container spacing={2} data-test="postsContainer">
             {filteredPosts.map((post) => (
               <Grid item xs={12} sm={6} md={3} key={post.id}>
                 <Post
@@ -52,7 +54,7 @@ class Posts extends Component {
             ))}
           </Grid>
         )}
-      </>
+      </div>
     );
   }
 }

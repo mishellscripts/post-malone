@@ -20,7 +20,7 @@ const styles = (theme) => ({
     position: 'relative',
     top: '50%',
     transform: 'translateY(-50%)',
-    width: '70%',
+    maxWidth: 800,
     margin: '0 auto',
     backgroundColor: '#ffffff',
   },
@@ -54,7 +54,7 @@ const defaultState = {
       isValid: false,
       touched: false,
       error: 'Title cannot be empty',
-      rule: /\S/,
+      rule: /\S+/,
     },
     body: {
       id: 'Body',
@@ -62,7 +62,7 @@ const defaultState = {
       isValid: false,
       touched: false,
       error: 'Body cannot be empty',
-      rule: /\S/,
+      rule: /\S+/,
     },
   },
 };
@@ -73,10 +73,9 @@ class EditPostModal extends Component {
   static getDerivedStateFromProps(props, state) {
     // when new post passed in through props, reset form errors & set values
     if (props.id && props.id !== state.id) {
-      const newState = { ...state };
+      const newState = { ... defaultState };
       newState.id = props.id;
-      newState.error = false;
-      newState.dirty = false;
+      newState.userId = props.userId;
       newState.fields = {
         title: {
           ...defaultState.fields.title,

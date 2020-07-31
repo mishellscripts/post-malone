@@ -73,7 +73,7 @@ class EditPostModal extends Component {
   static getDerivedStateFromProps(props, state) {
     // when new post passed in through props, reset form errors & set values
     if (props.id && props.id !== state.id) {
-      const newState = { ... defaultState };
+      const newState = { ...defaultState };
       newState.id = props.id;
       newState.userId = props.userId;
       newState.fields = {

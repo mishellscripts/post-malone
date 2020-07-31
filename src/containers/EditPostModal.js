@@ -142,7 +142,7 @@ class EditPostModal extends Component {
     });
   }
 
-  renderInput = (name, fieldData, textFieldProps) => {
+  renderInput = (name, fieldData) => {
     const { classes } = this.props;
     const { error, dirty } = this.state;
     const hasFormError = error && !dirty;

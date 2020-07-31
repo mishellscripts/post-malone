@@ -28,6 +28,7 @@ const styles = (theme) => ({
 
 const Post = (props) => {
   const { title, body, classes, handleEdit } = props;
+  
   return (
     <Card className={classes.card} elevation={1}>
       <CardContent>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'proptypes';
+import PropTypes from 'prop-types';
 import {
   withStyles,
   Modal,

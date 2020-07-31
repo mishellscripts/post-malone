@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'proptypes';
+import PropTypes from 'prop-types';
 import {
   withStyles,
   TextField,
@@ -64,7 +64,9 @@ class SearchForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.searchPosts(this.state.input);
+    if (this.state.touched) {
+      this.searchPosts(this.state.input);
+    }
   }
 
   searchPosts = (title) => {
